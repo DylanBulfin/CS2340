@@ -58,4 +58,9 @@ public class LoginActivity extends AppCompatActivity {
             dialogue.show();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }
