@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("I ain't know you");
+            builder.setMessage("I ain't know you. \r\n Wrong Username or Password.");
             AlertDialog dialogue = builder.create();
             dialogue.show();
         }
