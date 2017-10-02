@@ -1,36 +1,59 @@
 package com.cs2340.team6.totallyratticalapp;
 
+import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.content.Intent;
+import android.widget.Spinner;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText etName;
-    EditText etUsername;
-    EditText etPassword;
+    private EditText etName;
+    private EditText etUsername;
+    private EditText etPassword;
+    private Spinner roleSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        /*final EditText */etName = (EditText) findViewById(R.id.etName);
-        /*final EditText */etUsername = (EditText) findViewById(R.id.etUsername);
-        /*final EditText */etPassword = (EditText) findViewById(R.id.etPassword);
+        etName = (EditText) findViewById(R.id.etName);
+        etUsername = (EditText) findViewById(R.id.etUsername);
+        etPassword = (EditText) findViewById(R.id.etPassword);
 
-        final Button RegisterButton = (Button) findViewById(R.id.RegisterButton);
-        final Button CancelRegisterButton = (Button) findViewById(R.id.CancelRegisterButton);
+        roleSpinner = (Spinner) findViewById(R.id.roleSpinner);
 
-
+        ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, User.Role.values());
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        roleSpinner.setAdapter(adapter);
     }
 
     public void onCancel2Pressed(View view) {
         Intent intent = new Intent(this, WelcomeActivity.class);
         startActivity(intent);
+    }
+
+    public void onRegisterPressed(View view){
+        if (etName.getText().toString().equals("") || etUsername.getText().toString().equals("")
+                || etPassword.getText().toString().equals("") ||
+                !LoginActivity.usernameAvailable(etUsername.getText().toString())) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("One or more fields empty or username is taken. Try again.");
+            AlertDialog dialogue = builder.create();
+            dialogue.show();
+        }
+        else {
+            LoginActivity.addUser(new User (etName.getText().toString(), etUsername.getText().toString(),
+                    etPassword.getText().toString(), (User.Role) roleSpinner.getSelectedItem()));
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override

@@ -9,27 +9,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.content.Intent;
 
+import java.util.ArrayList;
+
 public class LoginActivity extends AppCompatActivity {
 
     EditText etPassword;
     EditText etUsername;
+    private static ArrayList<User> users = new ArrayList<User>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        /*final EditText */etUsername = (EditText) findViewById(R.id.etUsername);
-        /*final EditText */etPassword = (EditText) findViewById(R.id.etPassword);
+        etUsername = (EditText) findViewById(R.id.etUsername);
+        etPassword = (EditText) findViewById(R.id.etPassword);
 
-        final Button loginButton = (Button) findViewById(R.id.loginButton);
-        final TextView tvSignUpLink = (TextView) findViewById(R.id.tvSignUpLink);
-
-//        tvSignUpLink.setOnClickListener(new View.OnClickListener());
-//            @Override
-//            public void onClick(View v) {
-//
-//        }
     }
 
     public void onCancelPressed(View v){
@@ -47,13 +42,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginPressed(View v) {
-        if (etUsername.getText().toString().equals("user") && etPassword.getText().toString().equals("pass")) {
+        if (LoginActivity.userExists(etUsername.getText().toString(), etPassword.getText().toString())) {
+            AppActivity.setCurrentUser(findUser(etUsername.getText().toString()));
             Intent intent = new Intent(this, AppActivity.class);
             startActivity(intent);
         }
         else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("I ain't know you. \r\n Wrong Username or Password.");
+            builder.setMessage("I ain't know you. \r\nWrong Username or Password.");
             AlertDialog dialogue = builder.create();
             dialogue.show();
         }
@@ -62,5 +58,40 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+    }
+
+    public static void addUser (User user) {
+        users.add(user);
+    }
+
+    public static boolean userExists (String username, String password) {
+        for (User u : users) {
+            if (u.getUsername().equals(username) && u.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean usernameAvailable(String username) {
+        for (User u : users) {
+            if (u.getUsername().equals(username)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static ArrayList<User> getUsers() {
+        return users;
+    }
+
+    private User findUser (String username) {
+        for (User u : users) {
+            if (u.getUsername().equals(username)) {
+                return u;
+            }
+        }
+        return null;
     }
 }
