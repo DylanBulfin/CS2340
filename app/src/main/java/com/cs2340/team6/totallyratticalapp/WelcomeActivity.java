@@ -7,7 +7,12 @@ import android.view.View;
 import android.widget.Button;
 
 /**
- * Created by dylan on 25/09/2017.
+ * This activity is loaded when the app starts up
+ *
+ * @author Group 6
+ * @version 1.0
+ * @since whenever
+ *
  */
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -16,14 +21,23 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-
     }
 
+    /**
+     * Starts LoginActivity
+     *
+     * @param v a View
+     */
     public void onWelcomeLoginPressed (View v) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Starts RegisterActivity
+     *
+     * @param v a View
+     */
     public void onWelcomeRegisterPressed (View v) {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);

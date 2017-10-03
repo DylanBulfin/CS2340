@@ -10,6 +10,15 @@ import android.widget.EditText;
 import android.content.Intent;
 import android.widget.Spinner;
 
+/**
+ * This activity is loaded when a user presses the register button on the welcome or login
+ * screen
+ *
+ * @author Group 6
+ * @version 1.0
+ * @since whenever
+ *
+ */
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText etName;
@@ -33,11 +42,22 @@ public class RegisterActivity extends AppCompatActivity {
         roleSpinner.setAdapter(adapter);
     }
 
+    /**
+     * Method is called when Cancel button is pressed, and starts the WelcomeActivity
+     *
+     * @param view a View
+     */
     public void onCancel2Pressed(View view) {
         Intent intent = new Intent(this, WelcomeActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Called when register button is pressed.
+     * Checks validity of registration, adds user if valid, shows warning otherwise
+     *
+     * @param view a View
+     */
     public void onRegisterPressed(View view){
         if (etName.getText().toString().equals("") || etUsername.getText().toString().equals("")
                 || etPassword.getText().toString().equals("") ||
